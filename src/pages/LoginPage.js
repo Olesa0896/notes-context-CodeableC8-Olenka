@@ -1,0 +1,50 @@
+import React, { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { GlobalContext } from "../context/global";
+import styled from "@emotion/styled";
+import { Card, Button, Input } from "../components/ui";
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+`;
+const LoginForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+`;
+
+function LoginPage() {
+  const { onLogin } = useContext(GlobalContext);
+  const [name, setName] = useState("");
+  const navigate = useNavigate();
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    onLogin(name);
+    navigate("/");
+  };
+
+  return (
+    <Container>
+      <h2>Identify yourself</h2>
+      <Card>
+        <LoginForm onSubmit={handleSubmit}>
+          <Input
+            placeholder="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <Button type="submit" disabled={!name}>
+            Continue
+          </Button>
+        </LoginForm>
+      </Card>
+    </Container>
+  );
+}
+
+export default LoginPage;
